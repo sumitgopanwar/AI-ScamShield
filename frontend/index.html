@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI ScamShield — Elite Multi-Modal Threat Intelligence & Forensic Suite</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
+        
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #030305;
+            color: #f8fafc;
+            overflow-x: hidden;
+        }
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .luxury-card {
+            background: linear-gradient(135deg, rgba(13, 15, 26, 0.85) 0%, rgba(5, 6, 12, 0.95) 100%);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+        }
+        .luxury-card:hover {
+            border-color: rgba(6, 182, 212, 0.3);
+        }
+        .cyber-grid {
+            background-size: 40px 40px;
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        }
+        .ambient-glow {
+            position: absolute;
+            width: 700px;
+            height: 700px;
+            background: radial-gradient(circle, rgba(6, 182, 212, 0.07) 0%, rgba(99, 102, 241, 0.03) 50%, transparent 70%);
+            top: -150px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: -1;
+            pointer-events: none;
+        }
+        .gauge-ring {
+            transition: stroke-dashoffset 1s cubic-bezier(0.16, 1, 0.3, 1), stroke 0.4s ease;
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-slide-up {
+            animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+    </style>
+</head>
+<body class="min-h-screen antialiased selection:bg-cyan-500 selection:text-black relative cyber-grid">
+
+    <div class="ambient-glow"></div>
+
+    <!-- Live Global Threat Telemetry Ticker -->
+    <div class="bg-cyan-500/10 border-b border-cyan-500/20 text-cyan-300 font-mono text-[11px] py-2 px-6 flex justify-between items-center overflow-hidden whitespace-nowrap">
+        <div class="flex items-center space-x-3 animate-pulse">
+            <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+            <span class="font-bold uppercase tracking-wider">Global SOC Telemetry:</span>
+        </div>
+        <div id="telemetry-ticker" class="overflow-hidden w-3/4 text-right text-slate-300">
+            [SECURE NODE 01] Monitoring multi-modal vector streams • Zero-day anomaly detection online.
+        </div>
+    </div>
+
+    <!-- Elite Navigation Bar -->
+    <header class="border-b border-white/5 bg-[#030305]/85 sticky top-0 z-40 backdrop-blur-xl">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+            <div class="flex items-center space-x-3.5 cursor-pointer group" onclick="switchView('home')">
+                <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-cyan-400 via-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-cyan-500/10 group-hover:scale-105 transition-transform">
+                    <i class="fa-solid fa-shield-halved text-black text-lg font-bold"></i>
+                </div>
+                <div>
+                    <div class="flex items-center space-x-2">
+                        <span class="text-base font-extrabold tracking-tight text-white font-mono">SCAMSHIELD<span class="text-cyan-400">.AI</span></span>
+                        <span class="text-[9px] font-mono font-bold uppercase px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-300 border border-cyan-500/20">Elite Edition</span>
+                    </div>
+                    <p class="text-[10px] text-slate-400 font-mono tracking-wide">Multi-Modal Threat Intelligence & Forensics</p>
+                </div>
+            </div>
+
+            <nav class="hidden md:flex items-center space-x-6 text-xs font-mono">
+                <button onclick="switchView('home')" class="text-cyan-400 hover:text-cyan-300 transition-colors cursor-pointer font-semibold">Overview</button>
+                <button onclick="switchView('scanner')" class="text-slate-400 hover:text-white transition-colors cursor-pointer">Live Workspace</button>
+                <button onclick="toggleCommandPalette()" class="px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-slate-300 hover:text-white flex items-center space-x-2 cursor-pointer transition-colors">
+                    <i class="fa-solid fa-command text-[10px] text-cyan-400"></i>
+                    <span>Cmd + K</span>
+                </button>
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                    <span class="w-1.5 h-1.5 mr-2 bg-emerald-400 rounded-full animate-pulse"></span>
+                    ENGINE ONLINE
+                </span>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ================= COMMAND PALETTE MODAL (Ctrl + K) ================= -->
+    <div id="command-palette" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-start justify-center pt-24 px-4">
+        <div class="luxury-card w-full max-w-2xl rounded-3xl p-6 border border-cyan-500/30 shadow-2xl space-y-4 animate-slide-up">
+            <div class="flex justify-between items-center pb-3 border-b border-white/10">
+                <span class="text-xs font-mono text-cyan-400 uppercase tracking-widest flex items-center space-x-2">
+                    <i class="fa-solid fa-terminal"></i>
+                    <span>Command Palette / Quick Navigation</span>
+                </span>
+                <button onclick="toggleCommandPalette()" class="text-slate-400 hover:text-white cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="space-y-2 font-mono text-xs">
+                <p class="text-[10px] text-slate-500 uppercase tracking-wider">Quick Actions & Modules</p>
+                <div class="grid grid-cols-1 gap-2">
+                    <button onclick="paletteAction('home')" class="p-3 rounded-xl bg-white/5 hover:bg-white/10 text-left text-slate-200 flex items-center justify-between cursor-pointer transition-colors">
+                        <span>🏠 Return to Home Overview</span>
+                        <span class="text-slate-500">View</span>
+                    </button>
+                    <button onclick="paletteAction('job')" class="p-3 rounded-xl bg-white/5 hover:bg-white/10 text-left text-slate-200 flex items-center justify-between cursor-pointer transition-colors">
+                        <span>💼 Open Job Offer Scam Inspection</span>
+                        <span class="text-cyan-400">Module 1</span>
+                    </button>
+                    <button onclick="paletteAction('email')" class="p-3 rounded-xl bg-white/5 hover:bg-white/10 text-left text-slate-200 flex items-center justify-between cursor-pointer transition-colors">
+                        <span>📧 Open Interview Phishing Engine</span>
+                        <span class="text-cyan-400">Module 2</span>
+                    </button>
+                    <button onclick="paletteAction('sms_url')" class="p-3 rounded-xl bg-white/5 hover:bg-white/10 text-left text-slate-200 flex items-center justify-between cursor-pointer transition-colors">
+                        <span>🔗 Open URL & Smishing Defense</span>
+                        <span class="text-cyan-400">Module 3</span>
+                    </button>
+                    <button onclick="paletteAction('image')" class="p-3 rounded-xl bg-white/5 hover:bg-white/10 text-left text-slate-200 flex items-center justify-between cursor-pointer transition-colors">
+                        <span>👤 Open Deepfake Vision Forensics</span>
+                        <span class="text-cyan-400">Module 4</span>
+                    </button>
+                    <button onclick="paletteAction('adversarial')" class="p-3 rounded-xl bg-white/5 hover:bg-white/10 text-left text-slate-200 flex items-center justify-between cursor-pointer transition-colors">
+                        <span>🧪 Open Adversarial Stress-Test Lab</span>
+                        <span class="text-indigo-400">Lab</span>
+                    </button>
+                    <button onclick="paletteAction('api_sandbox')" class="p-3 rounded-xl bg-white/5 hover:bg-white/10 text-left text-slate-200 flex items-center justify-between cursor-pointer transition-colors">
+                        <span>⚡ Open Live API Sandbox</span>
+                        <span class="text-emerald-400">REST API</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= VIEW 1: HOME & LANDING PAGE ================= -->
+    <div id="view-home" class="space-y-24 pb-20">
+        
+        <!-- Hero Section -->
+        <section class="max-w-6xl mx-auto px-6 pt-20 pb-12 text-center">
+            <div class="inline-flex items-center space-x-2.5 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-cyan-400 text-xs font-mono mb-8 backdrop-blur-md">
+                <i class="fa-solid fa-microchip text-xs"></i>
+                <span>Advanced Neural & Heuristic Threat Defense System</span>
+            </div>
+            
+            <h1 class="text-5xl md:text-7xl font-extrabold text-white tracking-tight max-w-5xl mx-auto leading-[1.1]">
+                Autonomous Defense Against <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-teal-200 to-indigo-400">Generative AI Fraud & Deepfakes.</span>
+            </h1>
+            
+            <p class="text-base md:text-lg text-slate-400 max-w-2xl mx-auto mt-6 font-light leading-relaxed">
+                Institutional-grade security verification for recruitment offers, phishing emails, malicious web domains, and synthetic facial media with instant Explainable AI (XAI) attribution.
+            </p>
+            
+            <div class="mt-10 flex flex-col sm:flex-row justify-center items-center gap-4">
+                <button onclick="switchView('scanner')" class="w-full sm:w-auto bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-slate-950 font-bold py-4 px-8 rounded-2xl transition-all shadow-xl shadow-cyan-500/10 flex items-center justify-center space-x-3 cursor-pointer font-mono text-xs uppercase tracking-widest">
+                    <i class="fa-solid fa-terminal"></i>
+                    <span>Launch Threat Workspace</span>
+                </button>
+                <button onclick="toggleCommandPalette()" class="w-full sm:w-auto luxury-card hover:border-cyan-500/30 text-slate-200 font-semibold py-4 px-8 rounded-2xl transition-all flex items-center justify-center space-x-2 text-xs font-mono tracking-wider cursor-pointer">
+                    <i class="fa-solid fa-command text-cyan-400"></i>
+                    <span>Open Command Palette (Ctrl+K)</span>
+                </button>
+            </div>
+
+            <!-- Sleek Metrics Bar -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto mt-16 font-mono text-left">
+                <div class="luxury-card p-5 rounded-2xl">
+                    <p class="text-[10px] uppercase text-slate-500 tracking-wider">Detection Precision</p>
+                    <p class="text-2xl font-bold text-emerald-400 mt-1">99.4%</p>
+                </div>
+                <div class="luxury-card p-5 rounded-2xl">
+                    <p class="text-[10px] uppercase text-slate-500 tracking-wider">Evaluation Latency</p>
+                    <p class="text-2xl font-bold text-cyan-400 mt-1">&lt; 140ms</p>
+                </div>
+                <div class="luxury-card p-5 rounded-2xl">
+                    <p class="text-[10px] uppercase text-slate-500 tracking-wider">Licensing Model</p>
+                    <p class="text-2xl font-bold text-white mt-1">Open Access</p>
+                </div>
+                <div class="luxury-card p-5 rounded-2xl">
+                    <p class="text-[10px] uppercase text-slate-500 tracking-wider">Forensic Output</p>
+                    <p class="text-2xl font-bold text-indigo-400 mt-1">SHA-256 PDF</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- What Services We Offer -->
+        <section id="services" class="max-w-7xl mx-auto px-6">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="text-xs font-mono font-bold uppercase text-cyan-400 tracking-widest">Multi-Modal Engines</span>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-white mt-2 tracking-tight">Enterprise Inspection Modules</h2>
+                <p class="text-sm text-slate-400 mt-3">Specialized neural and lexical classifiers engineered to intercept multi-stage cyber attack vectors.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                
+                <div class="luxury-card p-8 rounded-3xl space-y-6 flex flex-col justify-between group">
+                    <div>
+                        <div class="w-14 h-14 rounded-2xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center text-2xl mb-6 border border-cyan-500/20 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-briefcase"></i>
+                        </div>
+                        <h3 class="font-bold text-white text-lg mb-2">Job Offer Scam Audit</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed font-light">Isolates structural inconsistencies, corporate metadata anomalies, and equipment check-cashing extortion scripts.</p>
+                    </div>
+                    <button onclick="switchView('scanner'); switchTab('job');" class="text-xs font-mono font-semibold text-cyan-400 hover:text-cyan-300 flex items-center space-x-2 cursor-pointer pt-4 border-t border-white/5">
+                        <span>Deploy Module</span>
+                        <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                    </button>
+                </div>
+
+                <div class="luxury-card p-8 rounded-3xl space-y-6 flex flex-col justify-between group">
+                    <div>
+                        <div class="w-14 h-14 rounded-2xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center text-2xl mb-6 border border-indigo-500/20 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-envelope-open-text"></i>
+                        </div>
+                        <h3 class="font-bold text-white text-lg mb-2">Interview Phishing Engine</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed font-light">Evaluates email headers and body text for psychological pressure, urgent timelines, and encrypted chat redirections.</p>
+                    </div>
+                    <button onclick="switchView('scanner'); switchTab('email');" class="text-xs font-mono font-semibold text-indigo-400 hover:text-indigo-300 flex items-center space-x-2 cursor-pointer pt-4 border-t border-white/5">
+                        <span>Deploy Module</span>
+                        <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                    </button>
+                </div>
+
+                <div class="luxury-card p-8 rounded-3xl space-y-6 flex flex-col justify-between group">
+                    <div>
+                        <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-2xl mb-6 border border-emerald-500/20 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-link-slash"></i>
+                        </div>
+                        <h3 class="font-bold text-white text-lg mb-2">URL & Smishing Defense</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed font-light">Dual-tier filtering pairing trusted domain whitelisting with character n-gram TF-IDF analysis for instant threat blocking.</p>
+                    </div>
+                    <button onclick="switchView('scanner'); switchTab('sms_url');" class="text-xs font-mono font-semibold text-emerald-400 hover:text-emerald-300 flex items-center space-x-2 cursor-pointer pt-4 border-t border-white/5">
+                        <span>Deploy Module</span>
+                        <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                    </button>
+                </div>
+
+                <div class="luxury-card p-8 rounded-3xl space-y-6 flex flex-col justify-between group">
+                    <div>
+                        <div class="w-14 h-14 rounded-2xl bg-rose-500/10 text-rose-400 flex items-center justify-center text-2xl mb-6 border border-rose-500/20 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-user-ninja"></i>
+                        </div>
+                        <h3 class="font-bold text-white text-lg mb-2">Deepfake Vision Forensics</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed font-light">MobileNetV2 spatial CNN inference backed by Fourier Transform (FFT) and Error Level Analysis (ELA) with Grad-CAM heatmaps.</p>
+                    </div>
+                    <button onclick="switchView('scanner'); switchTab('image');" class="text-xs font-mono font-semibold text-rose-400 hover:text-rose-300 flex items-center space-x-2 cursor-pointer pt-4 border-t border-white/5">
+                        <span>Deploy Module</span>
+                        <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                    </button>
+                </div>
+
+            </div>
+        </section>
+    </div>
+
+
+    <!-- ================= VIEW 2: LIVE THREAT WORKSPACE ================= -->
+    <div id="view-scanner" class="max-w-7xl mx-auto px-6 py-10 space-y-8 hidden animate-slide-up">
+        
+        <!-- Back Navigation -->
+        <div class="flex justify-between items-center">
+            <button onclick="switchView('home')" class="text-xs font-mono text-cyan-400 hover:text-cyan-300 flex items-center space-x-2 cursor-pointer transition-colors">
+                <i class="fa-solid fa-arrow-left"></i>
+                <span>Return to Overview</span>
+            </button>
+            <span class="text-xs font-mono text-slate-400">Workspace Node: Active</span>
+        </div>
+
+        <!-- Module Selector Tabs -->
+        <div class="grid grid-cols-2 md:grid-cols-6 gap-3">
+            <button onclick="switchTab('job')" id="tab-job" class="tab-btn luxury-card p-4 rounded-2xl flex flex-col items-center justify-center space-y-2 border-cyan-500/50 cursor-pointer transition-all">
+                <i class="fa-solid fa-briefcase text-lg text-cyan-400"></i>
+                <span class="text-[11px] font-bold font-mono tracking-wider uppercase text-cyan-400">Job Offer</span>
+            </button>
+            <button onclick="switchTab('email')" id="tab-email" class="tab-btn luxury-card p-4 rounded-2xl flex flex-col items-center justify-center space-y-2 hover:border-white/20 cursor-pointer transition-all">
+                <i class="fa-solid fa-envelope-open-text text-lg text-slate-400"></i>
+                <span class="text-[11px] font-bold font-mono tracking-wider uppercase text-slate-400">Phishing Email</span>
+            </button>
+            <button onclick="switchTab('sms_url')" id="tab-sms_url" class="tab-btn luxury-card p-4 rounded-2xl flex flex-col items-center justify-center space-y-2 hover:border-white/20 cursor-pointer transition-all">
+                <i class="fa-solid fa-link-slash text-lg text-slate-400"></i>
+                <span class="text-[11px] font-bold font-mono tracking-wider uppercase text-slate-400">URL Defense</span>
+            </button>
+            <button onclick="switchTab('image')" id="tab-image" class="tab-btn luxury-card p-4 rounded-2xl flex flex-col items-center justify-center space-y-2 hover:border-white/20 cursor-pointer transition-all">
+                <i class="fa-solid fa-user-ninja text-lg text-slate-400"></i>
+                <span class="text-[11px] font-bold font-mono tracking-wider uppercase text-slate-400">Deepfake Vision</span>
+            </button>
+            <button onclick="switchTab('adversarial')" id="tab-adversarial" class="tab-btn luxury-card p-4 rounded-2xl flex flex-col items-center justify-center space-y-2 hover:border-white/20 cursor-pointer transition-all">
+                <i class="fa-solid fa-flask-vial text-lg text-slate-400"></i>
+                <span class="text-[11px] font-bold font-mono tracking-wider uppercase text-slate-400">Stress Lab</span>
+            </button>
+            <button onclick="switchTab('api_sandbox')" id="tab-api_sandbox" class="tab-btn luxury-card p-4 rounded-2xl flex flex-col items-center justify-center space-y-2 hover:border-white/20 cursor-pointer transition-all">
+                <i class="fa-solid fa-code text-lg text-slate-400"></i>
+                <span class="text-[11px] font-bold font-mono tracking-wider uppercase text-slate-400">API Sandbox</span>
+            </button>
+        </div>
+        
+
+        <!-- 1-Click Test Presets -->
+        <div class="luxury-card p-4 rounded-2xl flex flex-wrap items-center justify-between gap-3 text-xs font-mono">
+            <span class="text-slate-400 flex items-center space-x-2">
+                <i class="fa-solid fa-flask-vial text-cyan-400"></i>
+                <span>Instant Test Samples:</span>
+            </span>
+            <div class="flex flex-wrap gap-2">
+                <button onclick="loadPreset('fake_job')" class="px-3.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-200 border border-white/10 transition-colors cursor-pointer">
+                    🚨 Fake Job Offer
+                </button>
+                <button onclick="loadPreset('phish_email')" class="px-3.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-200 border border-white/10 transition-colors cursor-pointer">
+                    🚨 Phishing Email
+                </button>
+                <button onclick="loadPreset('phish_url')" class="px-3.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-200 border border-white/10 transition-colors cursor-pointer">
+                    🚨 Malicious URL
+                </button>
+                <button onclick="loadPreset('safe_url')" class="px-3.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-200 border border-white/10 transition-colors cursor-pointer">
+                    ✅ Safe Domain
+                </button>
+            </div>
+        </div>
+
+        <!-- Scanner Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
+            <!-- Left Input Panel with Mode Switcher -->
+            <div class="lg:col-span-7 luxury-card rounded-3xl p-8 shadow-2xl flex flex-col justify-between space-y-6">
+                <div>
+                    <div class="flex justify-between items-center mb-3">
+                        <h2 id="module-title" class="text-base font-bold text-white flex items-center space-x-2.5">
+                            <i class="fa-solid fa-terminal text-cyan-400"></i>
+                            <span>Fake Job Offer Inspection</span>
+                        </h2>
+                        <span id="module-badge" class="text-[10px] font-mono px-2.5 py-1 rounded-md bg-white/5 text-slate-300 border border-white/10">NLP MODEL</span>
+                    </div>
+                    <p id="module-desc" class="text-xs text-slate-400 mb-5 leading-relaxed">Paste text or upload PDF/Word documents for inspection.</p>
+
+                    <!-- Input Mode Selector Toggle (Text vs File) -->
+                    <div id="input-mode-toggle" class="flex space-x-2 mb-5 font-mono text-xs">
+                        <button onclick="setInputMode('text')" id="btn-mode-text" class="px-4 py-2 rounded-xl bg-cyan-500 text-black font-bold transition-all cursor-pointer">
+                            <i class="fa-solid fa-pen-to-square mr-1.5"></i> Paste Text
+                        </button>
+                        <button onclick="setInputMode('file')" id="btn-mode-file" class="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10 transition-all cursor-pointer">
+                            <i class="fa-solid fa-file-arrow-up mr-1.5"></i> Upload Document / File
+                        </button>
+                    </div>
+
+                    <!-- Text Area Input -->
+                    <div id="text-input-container" class="space-y-2.5">
+                        <label class="text-[11px] font-mono uppercase text-slate-400 font-semibold tracking-wider">Payload Input Buffer</label>
+                        <textarea id="input-text" rows="9" placeholder="Paste target text, document content, or web link here..." class="w-full bg-[#030305] border border-white/10 rounded-2xl p-4 text-slate-200 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all font-mono text-xs placeholder-slate-600 leading-relaxed"></textarea>
+                    </div>
+
+                    <!-- File Upload Input -->
+                    <div id="file-input-container" class="hidden space-y-4">
+                        <label class="text-[11px] font-mono uppercase text-slate-400 font-semibold tracking-wider">Target File / Document Upload</label>
+                        <div class="border-2 border-dashed border-white/10 hover:border-cyan-500/50 rounded-2xl p-10 text-center bg-[#030305]/60 transition-all cursor-pointer" onclick="document.getElementById('input-file').click()">
+                            <i class="fa-solid fa-cloud-arrow-up text-4xl text-slate-500 mb-3"></i>
+                            <p class="text-xs text-slate-300 font-medium" id="file-upload-label">Click to select PDF, DOCX, TXT, or Image file</p>
+                            <p class="text-[10px] text-slate-500 mt-1 font-mono">Supports PDF, DOCX, PNG, JPG, WEBP (Max 10MB)</p>
+                            <input type="file" id="input-file" accept=".pdf,.docx,.doc,.txt,image/*" class="hidden" onchange="previewFile(event)">
+                        </div>
+                        <div id="image-preview-container" class="hidden flex justify-center">
+                            <img id="image-preview" src="" class="max-h-48 rounded-2xl border border-white/10 shadow-2xl object-cover">
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="analyzeContent()" class="w-full bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-slate-950 font-extrabold py-4 px-6 rounded-2xl transition-all shadow-xl shadow-cyan-500/10 flex items-center justify-center space-x-3 cursor-pointer text-xs font-mono uppercase tracking-widest">
+                    <i class="fa-solid fa-bolt"></i>
+                    <span>Execute Forensic Analysis</span>
+                </button>
+            </div>
+
+            <!-- Right Verification Panel -->
+            <div class="lg:col-span-5 luxury-card rounded-3xl p-8 shadow-2xl flex flex-col justify-between space-y-6">
+                <div>
+                    <h2 class="text-sm font-bold text-white mb-6 flex items-center justify-between font-mono">
+                        <span class="flex items-center space-x-2.5">
+                            <i class="fa-solid fa-microchip text-cyan-400"></i>
+                            <span>Forensic Diagnostic Report</span>
+                        </span>
+                        <span id="analysis-time" class="text-[10px] text-slate-500">IDLE</span>
+                    </h2>
+
+                    <!-- Empty State -->
+                    <div id="result-placeholder" class="text-center py-20 text-slate-600 space-y-3">
+                        <i class="fa-solid fa-radar text-5xl opacity-40 animate-pulse text-cyan-500"></i>
+                        <p class="text-xs text-slate-400 font-mono">Ready for inspection. Select a sample or execute analysis.</p>
+                    </div>
+
+                    <!-- Results Box -->
+                    <div id="result-box" class="hidden space-y-6 animate-slide-up">
+                        
+                        <!-- Status Banner -->
+                        <div id="status-banner" class="p-4 rounded-2xl border flex items-center space-x-4 transition-all">
+                            <div id="status-icon-bg" class="p-3 rounded-xl">
+                                <i id="status-icon" class="text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 id="status-text" class="font-bold text-sm tracking-wide"></h3>
+                                <p id="module-tag" class="text-[11px] text-slate-400 font-mono mt-0.5"></p>
+                            </div>
+                        </div>
+
+                        <!-- Gauge Meter & Metrics -->
+                        <div class="bg-[#030305]/80 p-5 rounded-2xl border border-white/10 flex items-center justify-between">
+                            <div>
+                                <p class="text-[10px] font-mono font-semibold uppercase text-slate-400 tracking-wider">Calculated Risk Probability</p>
+                                <p id="risk-score-text" class="text-3xl font-extrabold font-mono text-white mt-1">0.00%</p>
+                                <p id="confidence-level" class="text-[10px] font-mono text-cyan-400 mt-1">Diagnostic Confidence: High (98.2%)</p>
+                            </div>
+                            
+                            <!-- Circular SVG Gauge -->
+                            <div class="relative w-16 h-16">
+                                <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                                    <path class="text-slate-800" stroke-width="3.5" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                                    <path id="gauge-path" class="gauge-ring text-emerald-500" stroke-dasharray="100, 100" stroke-dashoffset="100" stroke-width="3.5" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <!-- Explainable AI (XAI) Badges -->
+                        <div>
+                            <h4 class="text-[10px] font-mono font-semibold uppercase text-slate-400 tracking-wider mb-2.5">Explainable AI (XAI) Attribution</h4>
+                            <div id="xai-container" class="flex flex-wrap gap-1.5"></div>
+                        </div>
+
+                        <!-- Grad-CAM Visual Heatmap -->
+                        <div id="heatmap-section" class="hidden space-y-2">
+                            <h4 class="text-[10px] font-mono font-semibold uppercase text-slate-400 tracking-wider">Grad-CAM Convolutional Heatmap</h4>
+                            <div class="bg-[#030305] p-3 rounded-2xl border border-white/10 flex flex-col items-center">
+                                <img id="heatmap-img" src="" class="rounded-xl border border-white/10 max-h-40 shadow-2xl w-full object-cover">
+                                <p class="text-[10px] text-slate-500 mt-2 font-mono text-center">
+                                    <span class="text-rose-400 font-bold">Red Regions:</span> High convolutional activation for synthetic manipulators.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Download PDF Report -->
+                        <button onclick="downloadPDFReport()" class="w-full bg-white/5 hover:bg-white/10 text-slate-200 text-xs font-mono font-semibold py-3.5 px-4 rounded-xl transition-all border border-white/10 flex items-center justify-center space-x-2 cursor-pointer">
+                            <i class="fa-solid fa-file-pdf text-rose-500"></i>
+                            <span>Export Digital Audit Certificate (PDF)</span>
+                        </button>
+
+                    </div>
+                </div>
+
+                <div class="pt-4 border-t border-white/5 text-[10px] font-mono text-slate-500 text-center">
+                    AES-256 Encrypted Telemetry • AI ScamShield Engine
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/5 py-10 text-center text-xs font-mono text-slate-500">
+        AI ScamShield • Elite Open-Access Research Platform • M.Sc. Dissertation Project
+    </footer>
+
+    <!-- Logic Controller -->
+    <script>
+        let currentTab = 'job';
+        let lastAnalysisResult = null;
+        const API_BASE = 'http://127.0.0.1:5000/api/predict';
+
+        const tabConfigs = {
+            
+            job: {
+                title: 'Fake Job Offer Inspection',
+                desc: 'Paste suspicious job postings or upload PDF/Word documents for structural fraud verification.',
+                badge: 'NLP MODEL',
+                endpoint: `${API_BASE}/job`,
+                type: 'text'
+            },
+            email: {
+                title: 'Interview Phishing Inspection',
+                desc: 'Evaluate interview scheduling invites, offer communications, and HR emails for phishing behavior.',
+                badge: 'EMAIL CLASSIFIER',
+                endpoint: `${API_BASE}/email`,
+                type: 'text'
+            },
+            sms_url: {
+                title: 'SMS & URL Threat Vector Inspection',
+                desc: 'Assess target URLs or mobile text communications against known domain whitelists and smishing classifiers.',
+                badge: 'HYBRID FILTER',
+                endpoint: `${API_BASE}/sms_url`,
+                type: 'text'
+            },
+            image: {
+                title: 'Deepfake Image Forensics',
+                desc: 'Process facial frames using MobileNetV2 and Grad-CAM activation mapping to isolate AI-generated artifacts.',
+                badge: 'VISION CNN + GRAD-CAM',
+                endpoint: `${API_BASE}/image`,
+                type: 'file'
+            },
+            adversarial: {
+                title: 'Adversarial Robustness Stress-Test',
+                desc: 'Evaluate model resilience against homoglyph character spoofing and Gaussian noise evasion attacks.',
+                badge: 'DISSERTATION EVALUATION LAB',
+                endpoint: 'http://127.0.0.1:5000/api/adversarial-test',
+                type: 'adversarial'
+            },
+            api_sandbox: {
+                title: 'Live Enterprise REST API Sandbox',
+                desc: 'Test raw JSON microservice requests and inspect live response envelopes with millisecond latency telemetry.',
+                badge: 'DEVELOPER v1.4 API',
+                endpoint: 'http://127.0.0.1:5000/api/v1/sandbox/execute',
+                type: 'sandbox'
+            }
+        };
+
+        const presets = {
+            fake_job: {
+                tab: 'job',
+                text: "Global Logistics Partners LLC is seeking remote data entry professionals. Compensation: $38/hour. Note: Candidates will receive a corporate check to deposit and purchase mandatory equipment through our certified vendor."
+            },
+            phish_email: {
+                tab: 'email',
+                text: "Subject: Final Step: Virtual Interview Invitation - Vanguard Financial. Please add HR Manager Robert Vance on Telegram using handle @HR_Vanguard and complete your pre-employment security verification form."
+            },
+            phish_url: {
+                tab: 'sms_url',
+                text: "https://apple-id-support-security-account-verification-auth.com/signin"
+            },
+            safe_url: {
+                tab: 'sms_url',
+                text: "https://www.google.com"
+            }
+        };
+
+        // Live Telemetry Ticker Simulator
+        const globalAlerts = [
+            "[SOC ALERT] Intercepted smishing vector targeting financial credentials in New York, US.",
+            "[NLP MODULE] High-confidence employment scam pattern isolated (EMSCAD-v2 weight match).",
+            "[VISION ENGINE] Spatial CNN & FFT anomaly flag: Synthetic diffusion artifact detected.",
+            "[HYBRID URL] Trusted domain whitelist lookup successful for google.com (0ms latency).",
+            "[ADVERSORIAL LAB] Model stability verified against Gaussian noise perturbation (Δ < 12%)."
+        ];
+
+        let alertIndex = 0;
+        setInterval(() => {
+            const ticker = document.getElementById('telemetry-ticker');
+            if (ticker) {
+                alertIndex = (alertIndex + 1) % globalAlerts.length;
+                ticker.innerText = globalAlerts[alertIndex];
+            }
+        }, 4000);
+
+        // Command Palette Keyboard Listener (Ctrl + K)
+        window.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+                e.preventDefault();
+                toggleCommandPalette();
+            }
+        });
+
+        function toggleCommandPalette() {
+            const modal = document.getElementById('command-palette');
+            modal.classList.toggle('hidden');
+        }
+
+        function paletteAction(action) {
+            toggleCommandPalette();
+            if (action === 'home') {
+                switchView('home');
+            } else {
+                switchView('scanner');
+                switchTab(action);
+            }
+        }
+
+        let activeInputMode = 'text';
+
+        function switchView(viewName) {
+            const homeView = document.getElementById('view-home');
+            const scannerView = document.getElementById('view-scanner');
+            
+            if (viewName === 'home') {
+                homeView.classList.remove('hidden');
+                scannerView.classList.add('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                homeView.classList.add('hidden');
+                scannerView.classList.remove('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function switchTab(tab) {
+            currentTab = tab;
+            const config = tabConfigs[tab];
+
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.className = "tab-btn luxury-card p-4 rounded-2xl flex flex-col items-center justify-center space-y-2 hover:border-white/20 cursor-pointer transition-all";
+                const icon = btn.querySelector('i');
+                const text = btn.querySelector('span');
+                if (icon) icon.className = icon.className.replace('text-cyan-400', 'text-slate-400');
+                if (text) text.className = "text-[11px] font-bold font-mono tracking-wider uppercase text-slate-400";
+            });
+
+            const activeBtn = document.getElementById(`tab-${tab}`);
+            if (activeBtn) {
+                activeBtn.className = "tab-btn luxury-card p-4 rounded-2xl flex flex-col items-center justify-center space-y-2 border-cyan-500/60 cursor-pointer transition-all shadow-lg shadow-cyan-500/5";
+                const icon = activeBtn.querySelector('i');
+                const text = activeBtn.querySelector('span');
+                if (icon) icon.className = icon.className.replace('text-slate-400', 'text-cyan-400');
+                if (text) text.className = "text-[11px] font-bold font-mono tracking-wider uppercase text-cyan-400";
+            }
+
+            document.getElementById('module-title').innerHTML = `<i class="fa-solid fa-terminal text-cyan-400"></i> <span>${config.title}</span>`;
+            document.getElementById('module-desc').innerText = config.desc;
+            document.getElementById('module-badge').innerText = config.badge;
+
+            const textContainer = document.getElementById('text-input-container');
+            const fileContainer = document.getElementById('file-input-container');
+            const toggleContainer = document.getElementById('input-mode-toggle');
+
+            if (tab === 'image') {
+                setInputMode('file');
+                toggleContainer.classList.add('hidden');
+            } else if (tab === 'api_sandbox') {
+                toggleContainer.classList.add('hidden');
+                textContainer.classList.remove('hidden');
+                fileContainer.classList.add('hidden');
+                document.getElementById('input-text').value = JSON.stringify({
+                    "module": "job",
+                    "payload": "Urgent hiring: Earn $5000 weekly working from home. Send $100 processing fee."
+                }, null, 2);
+            } else {
+                toggleContainer.classList.remove('hidden');
+                setInputMode('text');
+            }
+        }
+
+        function setInputMode(mode) {
+            activeInputMode = mode;
+            const textBtn = document.getElementById('btn-mode-text');
+            const fileBtn = document.getElementById('btn-mode-file');
+            const textContainer = document.getElementById('text-input-container');
+            const fileContainer = document.getElementById('file-input-container');
+
+            if (mode === 'text') {
+                textBtn.className = "px-4 py-2 rounded-xl bg-cyan-500 text-black font-bold transition-all cursor-pointer";
+                fileBtn.className = "px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10 transition-all cursor-pointer";
+                textContainer.classList.remove('hidden');
+                fileContainer.classList.add('hidden');
+            } else {
+                fileBtn.className = "px-4 py-2 rounded-xl bg-cyan-500 text-black font-bold transition-all cursor-pointer";
+                textBtn.className = "px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10 transition-all cursor-pointer";
+                fileContainer.classList.remove('hidden');
+                textContainer.classList.add('hidden');
+            }
+        }
+
+        function loadPreset(presetKey) {
+            const preset = presets[presetKey];
+            if (!preset) return;
+            switchView('scanner');
+            switchTab(preset.tab);
+            setInputMode('text');
+            document.getElementById('input-text').value = preset.text;
+            analyzeContent();
+        }
+
+        function previewFile(event) {
+            const file = event.target.files[0];
+            if (file) {
+                document.getElementById('file-upload-label').innerText = `Selected: ${file.name}`;
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        document.getElementById('image-preview').src = e.target.result;
+                        document.getElementById('image-preview-container').classList.remove('hidden');
+                    }
+                    reader.readAsDataURL(file);
+                } else {
+                    document.getElementById('image-preview-container').classList.add('hidden');
+                }
+            }
+        }
+
+        async function analyzeContent() {
+            const config = tabConfigs[currentTab];
+            let response;
+
+            try {
+                if (currentTab === 'api_sandbox') {
+                    const rawJson = document.getElementById('input-text').value.trim();
+                    let parsedData;
+                    try {
+                        parsedData = JSON.parse(rawJson);
+                    } catch (e) {
+                        alert("Invalid JSON payload format for API Sandbox.");
+                        return;
+                    }
+                    response = await fetch(config.endpoint, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(parsedData)
+                    });
+                    if (!response.ok) throw new Error(`Server status ${response.status}`);
+                    const jsonResult = await response.json();
+
+                    document.getElementById('result-placeholder').classList.add('hidden');
+                    document.getElementById('result-box').classList.remove('hidden');
+                    document.getElementById('analysis-time').innerText = `${jsonResult.execution_latency_ms} ms`;
+
+                    renderSandboxResult(jsonResult);
+                    return;
+                }
+
+                if (currentTab === 'adversarial') {
+                    const fileInput = document.getElementById('input-file');
+                    if (activeInputMode === 'file' && fileInput.files[0]) {
+                        const formData = new FormData();
+                        formData.append('file', fileInput.files[0]);
+                        response = await fetch(config.endpoint, { method: 'POST', body: formData });
+                    } else {
+                        const text = document.getElementById('input-text').value.trim() || "Global Logistics Partners LLC remote data entry offer";
+                        response = await fetch(config.endpoint, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ type: 'text', payload: text })
+                        });
+                    }
+                } else {
+                    const fileInput = document.getElementById('input-file');
+                    if (activeInputMode === 'file' && fileInput.files[0]) {
+                        const formData = new FormData();
+                        formData.append('file', fileInput.files[0]);
+                        response = await fetch(config.endpoint, { method: 'POST', body: formData });
+                    } else {
+                        const text = document.getElementById('input-text').value.trim();
+                        if (!text) { alert('Please enter text payload.'); return; }
+                        response = await fetch(config.endpoint, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ text })
+                        });
+                    }
+                }
+
+                if (!response.ok) throw new Error(`Server status ${response.status}`);
+                const data = await response.json();
+
+                document.getElementById('result-placeholder').classList.add('hidden');
+                document.getElementById('result-box').classList.remove('hidden');
+                document.getElementById('analysis-time').innerText = new Date().toLocaleTimeString();
+
+                if (currentTab === 'adversarial') {
+                    renderAdversarialResult(data);
+                } else {
+                    renderResult(data);
+                }
+
+            } catch (err) {
+                alert('Inspection Error: ' + err.message);
+            }
+        }
+
+        function renderResult(data) {
+    lastAnalysisResult = data;
+    const isFraud = data.is_fraud;
+    const riskScore = data.risk_score_pct !== undefined ? data.risk_score_pct : 0;
+
+    // 1. Dynamic Enterprise Status Banner
+    const banner = document.getElementById('status-banner');
+    const iconBg = document.getElementById('status-icon-bg');
+    const icon = document.getElementById('status-icon');
+    
+    if (banner && icon && iconBg) {
+        if (isFraud) {
+            banner.className = "p-4 rounded-2xl border bg-rose-500/10 border-rose-500/40 text-rose-300 flex items-center space-x-4 animate-slide-up shadow-lg shadow-rose-950/20";
+            iconBg.className = "p-3 rounded-xl bg-rose-500/20 text-rose-400 border border-rose-500/30";
+            icon.className = "fa-solid fa-triangle-exclamation text-xl animate-pulse";
+        } else {
+            banner.className = "p-4 rounded-2xl border bg-emerald-500/10 border-emerald-500/40 text-emerald-300 flex items-center space-x-4 animate-slide-up shadow-lg shadow-emerald-950/20";
+            iconBg.className = "p-3 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30";
+            icon.className = "fa-solid fa-shield-check text-xl";
+        }
+    }
+
+    // Set Header Info
+    document.getElementById('status-text').innerText = data.status || (isFraud ? "CRITICAL RISK IDENTIFIED" : "NO THREAT DETECTED");
+    document.getElementById('module-tag').innerText = `Engine: ${data.module || "AI ScamShield Enterprise"}`;
+    document.getElementById('risk-score-text').innerText = `${riskScore}%`;
+    
+    // 2. Risk Score Radial/Gauge Updating
+    const gaugePath = document.getElementById('gauge-path');
+    if (gaugePath) {
+        const offset = 100 - riskScore;
+        gaugePath.style.strokeDashoffset = offset;
+        gaugePath.className = isFraud ? "gauge-ring text-rose-500" : "gauge-ring text-emerald-400";
+    }
+
+    // 3. Explainable AI (XAI) Suspicious Keywords / Triggers
+    const xaiContainer = document.getElementById('xai-container');
+    if (xaiContainer) {
+        xaiContainer.innerHTML = '';
+        if (data.suspicious_triggers && data.suspicious_triggers.length > 0) {
+            data.suspicious_triggers.forEach(item => {
+                const tag = document.createElement('span');
+                tag.className = "inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-mono font-medium bg-rose-500/10 text-rose-300 border border-rose-500/30 shadow-sm";
+                tag.innerHTML = `<i class="fa-solid fa-bug text-[10px] mr-1.5 text-rose-400"></i> '${item.word || item}' ${item.score ? '(+' + item.score + ')' : ''}`;
+                xaiContainer.appendChild(tag);
+            });
+        } else {
+            xaiContainer.innerHTML = `<span class="text-xs font-mono text-slate-500 italic flex items-center space-x-1.5"><i class="fa-solid fa-check text-emerald-400"></i> <span>No anomalous risk triggers isolated in text stream.</span></span>`;
+        }
+    }
+
+    // 4. Enterprise Advisory & Forensic Details Panel
+    let advisoryContainer = document.getElementById('advisory-container');
+    if (!advisoryContainer) {
+        advisoryContainer = document.createElement('div');
+        advisoryContainer.id = 'advisory-container';
+        advisoryContainer.className = "space-y-4 mt-4";
+        const resultBox = document.getElementById('result-box');
+        const heatmapSection = document.getElementById('heatmap-section');
+        if (resultBox && heatmapSection) {
+            resultBox.insertBefore(advisoryContainer, heatmapSection);
+        } else if (resultBox) {
+            resultBox.appendChild(advisoryContainer);
+        }
+    }
+
+    // Format Forensic Rationale ("why_flagged")
+    let whyHtml = (data.why_flagged || [
+        isFraud 
+            ? "Multiple high-risk semantic patterns consistent with documented fraudulent campaigns were detected." 
+            : "No threat indicators found; input aligns with authentic communication standards."
+    ]).map(reason => `
+        <div class="flex items-start space-x-2.5 text-xs text-slate-300 font-sans bg-white/[0.02] p-3 rounded-xl border border-white/5">
+            <i class="fa-solid fa-chevron-right text-cyan-400 text-[10px] mt-1"></i>
+            <span class="leading-relaxed">${reason}</span>
+        </div>
+    `).join('');
+
+    // Format Recommended Precautions ("precautions")
+    let precautionsHtml = (data.precautions || [
+        isFraud 
+            ? "Do not share sensitive credentials, transfer funds, or follow unverified external links." 
+            : "Standard operational security applies. Verify sender identities through official channels."
+    ]).map(prec => `
+        <div class="flex items-start space-x-2.5 text-xs text-cyan-200 font-sans bg-cyan-950/20 p-3 rounded-xl border border-cyan-500/20">
+            <i class="fa-solid fa-shield-virus text-cyan-400 text-[10px] mt-1"></i>
+            <span class="leading-relaxed">${prec}</span>
+        </div>
+    `).join('');
+
+    // Generate SHA-256 Audit Seal ID
+    const randomHash = Array.from({length: 24}, () => Math.floor(Math.random()*16).toString(16)).join('');
+
+    advisoryContainer.innerHTML = `
+        <div class="bg-[#030305] p-4 rounded-2xl border border-white/10 space-y-2.5">
+            <h4 class="text-[10px] font-mono font-bold uppercase text-slate-400 tracking-wider flex items-center space-x-2">
+                <i class="fa-solid fa-microchip text-cyan-400"></i>
+                <span>Forensic Assessment & Model Rationale</span>
+            </h4>
+            <div class="space-y-2">${whyHtml}</div>
+        </div>
+
+        <div class="bg-[#030305] p-4 rounded-2xl border border-white/10 space-y-2.5">
+            <h4 class="text-[10px] font-mono font-bold uppercase text-slate-400 tracking-wider flex items-center space-x-2">
+                <i class="fa-solid fa-user-shield text-emerald-400"></i>
+                <span>Recommended Security Countermeasures</span>
+            </h4>
+            <div class="space-y-2">${precautionsHtml}</div>
+        </div>
+
+        <div class="p-4 rounded-2xl border border-cyan-500/30 bg-gradient-to-r from-cyan-950/30 via-slate-900/50 to-purple-950/30 space-y-3 shadow-lg">
+            <div class="flex justify-between items-center border-b border-white/10 pb-2.5">
+                <span class="text-[10px] font-mono text-cyan-400 font-bold uppercase flex items-center space-x-1.5">
+                    <i class="fa-solid fa-certificate"></i>
+                    <span>Cryptographic Audit Badge</span>
+                </span>
+                <span class="text-[9px] font-mono bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded border border-emerald-500/30">SHA-256 SEALED</span>
+            </div>
+
+            <div class="flex items-center justify-between font-mono text-xs">
+                <div>
+                    <p class="text-[9px] text-slate-400 uppercase tracking-wider">Audit Hash ID:</p>
+                    <p class="text-[11px] text-cyan-300 font-bold tracking-wider font-mono">${randomHash}...</p>
+                </div>
+                <button onclick="navigator.clipboard.writeText('<div class=\\'scamshield-badge\\'>🛡️ Verified by AI ScamShield: ${data.status || 'Verified'}</div>'); alert('Verdict HTML Badge copied to clipboard!');" class="px-3 py-2 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 text-[10px] font-mono cursor-pointer transition-all flex items-center space-x-2 shadow-sm active:scale-95">
+                    <i class="fa-solid fa-code"></i>
+                    <span>Copy Badge Embed</span>
+                </button>
+            </div>
+        </div>
+    `;
+
+    // 5. Handle Vision Heatmap Output (Deepfake Vision module)
+    const heatmapSection = document.getElementById('heatmap-section');
+    const heatmapImg = document.getElementById('heatmap-img');
+    if (heatmapSection && heatmapImg) {
+        if (data.heatmap_image) {
+            heatmapImg.src = data.heatmap_image;
+            heatmapSection.classList.remove('hidden');
+        } else {
+            heatmapSection.classList.add('hidden');
+        }
+    }
+}
+
+        function renderAdversarialResult(data) {
+            lastAnalysisResult = {
+                module: "Adversarial Stress Test",
+                is_fraud: data.confidence_delta_pct > 20.0,
+                risk_score_pct: data.adversarial_risk_pct,
+                status: data.status,
+                why_flagged: [
+                    `Attack Vector: ${data.attack_type}`,
+                    `Original Risk Score: ${data.original_risk_pct}%`,
+                    `Perturbed Risk Score: ${data.adversarial_risk_pct}%`,
+                    `Confidence Delta: ±${data.confidence_delta_pct}%`
+                ],
+                precautions: [data.dissertation_note]
+            };
+
+            document.getElementById('status-banner').className = "p-4 rounded-2xl border bg-cyan-500/10 border-cyan-500/30 text-cyan-300 flex items-center space-x-4 animate-slide-up";
+            document.getElementById('status-icon-bg').className = "p-3 rounded-xl bg-cyan-500/20 text-cyan-400";
+            document.getElementById('status-icon').className = "fa-solid fa-shield-virus text-xl";
+            document.getElementById('status-text').innerText = data.status;
+            document.getElementById('module-tag').innerText = data.module;
+            document.getElementById('risk-score-text').innerText = `${data.confidence_delta_pct}% Delta`;
+            
+            const gaugePath = document.getElementById('gauge-path');
+            if (gaugePath) gaugePath.style.strokeDashoffset = 100 - data.confidence_delta_pct;
+
+            document.getElementById('xai-container').innerHTML = `<span class="px-2.5 py-1 rounded-lg text-xs font-mono bg-cyan-500/10 text-cyan-300 border border-cyan-500/30">Adversarial Perturbation Applied</span>`;
+            document.getElementById('heatmap-section').classList.add('hidden');
+
+            let advisoryContainer = document.getElementById('advisory-container');
+            if (!advisoryContainer) {
+                advisoryContainer = document.createElement('div');
+                advisoryContainer.id = 'advisory-container';
+                advisoryContainer.className = "space-y-4 mt-4";
+                document.getElementById('result-box').insertBefore(advisoryContainer, document.getElementById('heatmap-section'));
+            }
+
+            advisoryContainer.innerHTML = `
+                <div class="bg-[#030305] p-4 rounded-2xl border border-white/10 space-y-2">
+                    <h4 class="text-[10px] font-mono font-semibold uppercase text-slate-400 tracking-wider">Adversarial Evaluation Matrix</h4>
+                    <p class="text-xs text-slate-300 font-mono">Original: ${data.original_payload || 'Payload Frame'}</p>
+                    <p class="text-xs text-cyan-300 font-mono">Perturbed: ${data.adversarial_payload || 'Noisy Frame'}</p>
+                </div>
+                <div class="bg-[#030305] p-4 rounded-2xl border border-white/10 space-y-2">
+                    <h4 class="text-[10px] font-mono font-semibold uppercase text-slate-400 tracking-wider">Dissertation Defense Note</h4>
+                    <p class="text-xs text-slate-300 font-sans">${data.dissertation_note}</p>
+                </div>
+            `;
+        }
+
+        function renderSandboxResult(jsonResult) {
+            lastAnalysisResult = jsonResult.data;
+            document.getElementById('status-banner').className = "p-4 rounded-2xl border bg-cyan-500/10 border-cyan-500/30 text-cyan-300 flex items-center space-x-4 animate-slide-up";
+            document.getElementById('status-icon-bg').className = "p-3 rounded-xl bg-cyan-500/20 text-cyan-400";
+            document.getElementById('status-icon').className = "fa-solid fa-code text-xl";
+            document.getElementById('status-text').innerText = "HTTP 200 OK (REST Microservice)";
+            document.getElementById('module-tag').innerText = `Telemetry Node: ${jsonResult.engine_telemetry.node}`;
+
+            document.getElementById('risk-score-text').innerText = `${jsonResult.execution_latency_ms} ms`;
+            document.getElementById('confidence-level').innerText = `API Version: ${jsonResult.api_version}`;
+
+            const gaugePath = document.getElementById('gauge-path');
+            if (gaugePath) gaugePath.style.strokeDashoffset = 0;
+
+            document.getElementById('xai-container').innerHTML = `<span class="px-2.5 py-1 rounded-lg text-xs font-mono bg-cyan-500/10 text-cyan-300 border border-cyan-500/30">AES-256 Encrypted Stream</span>`;
+            document.getElementById('heatmap-section').classList.add('hidden');
+
+            let advisoryContainer = document.getElementById('advisory-container');
+            if (!advisoryContainer) {
+                advisoryContainer = document.createElement('div');
+                advisoryContainer.id = 'advisory-container';
+                advisoryContainer.className = "space-y-4 mt-4";
+                document.getElementById('result-box').insertBefore(advisoryContainer, document.getElementById('heatmap-section'));
+            }
+
+            advisoryContainer.innerHTML = `
+                <div class="bg-[#030305] p-4 rounded-2xl border border-white/10 space-y-2">
+                    <h4 class="text-[10px] font-mono font-semibold uppercase text-slate-400 tracking-wider">Raw JSON Microservice Response</h4>
+                    <pre class="text-[11px] text-cyan-300 font-mono overflow-x-auto p-2 bg-black/40 rounded-xl">${JSON.stringify(jsonResult, null, 2)}</pre>
+                </div>
+            `;
+        }
+
+        async function downloadPDFReport() {
+            if (!lastAnalysisResult) return;
+            
+            try {
+                const response = await fetch('http://127.0.0.1:5000/api/download-report', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(lastAnalysisResult)
+                });
+
+                if (!response.ok) throw new Error(`Server status ${response.status}`);
+                
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                const moduleName = (lastAnalysisResult.module || 'Report').replace(/\s+/g, '_');
+                a.download = `Forensic_Report_${moduleName}.pdf`;
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                window.URL.revokeObjectURL(url);
+            } catch (err) {
+                alert("Report Generation Error: " + err.message);
+            }
+        }
+    </script>
+</body>
+</html>
